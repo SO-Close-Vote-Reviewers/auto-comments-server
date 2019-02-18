@@ -18,5 +18,9 @@ namespace SOCVR.AutoCommentsServer.Services.Abstract
         /// <param name="directoryPath"></param>
         /// <returns></returns>
         IEnumerable<string> EnumerateDirectories(string directoryPath);
+
+        bool DoesDirectoryExist(string path);
+
+        void CreateDirectory(string path);
     }
 }

@@ -5,19 +5,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SOCVR.AutoCommentsServer.Models;
+using SOCVR.AutoCommentsServer.Services.Abstract;
 
 namespace SOCVR.AutoCommentsServer.Controllers
 {
+    [Route("")]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IGitInstanceManager gitInstanceManager;
+        private readonly IAutoCommentRepoReader repoReader;
+
+        public HomeController(IGitInstanceManager gitInstanceManager, IAutoCommentRepoReader repoReader)
         {
-            return View();
+            this.gitInstanceManager = gitInstanceManager;
+            this.repoReader = repoReader;
         }
 
-        public IActionResult Privacy()
+        [HttpGet("")]
+        public IActionResult Index()
         {
-            return View();
+            gitInstanceManager.UpdateOrCreateInstance();
+
+            var sites = repoReader.GetSites();
+            return View(sites);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

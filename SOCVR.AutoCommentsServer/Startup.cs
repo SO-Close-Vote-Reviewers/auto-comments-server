@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SOCVR.AutoCommentsServer.Services;
+using SOCVR.AutoCommentsServer.Services.Abstract;
+using SOCVR.AutoCommentsServer.Settings;
 
 namespace SOCVR.AutoCommentsServer
 {
@@ -23,15 +26,20 @@ namespace SOCVR.AutoCommentsServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddTransient<IAutoCommentRepoReader, AutoCommentRepoReader>();
+            services.AddTransient<ICommentDataTransformer, CommentDataTransformer>();
+            services.AddTransient<IFileSystem, FileSystem>();
+            services.AddTransient<IGitInstanceManager, GitInstanceManager>();
+            services.AddTransient<IGitManager, GitManager>();
+            services.AddTransient<IGitPullCache, GitPullCache>();
+            services.AddTransient<IProcessRunner, ProcessRunner>();
+
+            services.AddMemoryCache();
+
+            services.Configure<GitPullCacheSettings>(Configuration.GetSection(nameof(GitPullCacheSettings)));
+            services.Configure<GitSettings>(Configuration.GetSection(nameof(GitSettings)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
