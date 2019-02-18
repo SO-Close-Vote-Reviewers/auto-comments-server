@@ -39,7 +39,7 @@ namespace SOCVR.AutoCommentsServer.Services
         public IEnumerable<string> GetSites()
         {
             var sitesDirPath = Path.Combine(settings.CloneDir, "sites");
-            return fileSystem.EnumerateDirectories(sitesDirPath).Select(x => Path.GetDirectoryName(x));
+            return fileSystem.EnumerateDirectories(sitesDirPath).Select(x => Path.GetFileName(x));
         }
     }
 }

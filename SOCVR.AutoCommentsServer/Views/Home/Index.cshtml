@@ -1,8 +1,87 @@
-﻿@{
+﻿@model IEnumerable<string>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    #remote-click-image {
+        max-width: 542px;
+        width: 100%;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col s12 center-align">
+            <h1 class="brown-text text-darken-4">SOCVR Auto Comments</h1>
+        </div>
+        <div class="col s12 m8 l6 offset-m2 offset-l3 center-align">
+            <p>
+                Do you use <a href="https://stackapps.com/questions/2116/autoreviewcomments-pro-forma-comments-for-se">AutoReviewComments - Pro-forma comments for SE</a>,
+                along with the collection of comments at <a href="https://github.com/SO-Close-Vote-Reviewers/auto-comments">SOCVR's Github repository</a>? Do you wish you
+                could always keep your copy of comments in sync with the repository?
+            </p>
+            <p>
+                This site gives you the ability to do that.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 center-align">
+            <h2 class="brown-text text-darken-2">How to set up the sync</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s2 offset-s5 m1 offset-m1 center-align">
+            <h3>1</h3>
+        </div>
+        <div class="col s12 m10">
+            <p>
+                Copy the URL for the site you want comments for.
+            </p>
+            <div class="collection">
+                @foreach (var site in Model)
+                {
+                    <a asp-controller="JsonpData" asp-action="GetSiteData" asp-route-siteName="@site" class="collection-item brown-text" target="_blank">@site</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+        <div class="col s2 offset-s5 m1 offset-m1 center-align">
+            <h3>2</h3>
+        </div>
+        <div class="col s12 m10">
+            <p>
+                Open the Auto Comments dialog and click "remote" at the bottom.
+            </p>
+            <p>
+                <img id="remote-click-image" src="~/images/clicking-remote.png" alt="click the remote link" />
+            </p>
+        </div>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+        <div class="col s2 offset-s5 m1 offset-m1 center-align">
+            <h3>3</h3>
+        </div>
+        <div class="col s12 m10">
+            <p>
+                Paste in the url, check "auto-get", and click save.
+            </p>
+            <blockquote>
+                Please be aware that this will overwrite <strong>all</strong> local entries with the server's, and will overwrite it every time the dialog opens.
+                If you have custom comments you want to keep, commit them to <a href="https://github.com/SO-Close-Vote-Reviewers/auto-comments">the repository</a> or don't use this feature.
+            </blockquote>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".dropdown-button").dropdown();
+        });
+    </script>
+}
