@@ -4,3 +4,7 @@
 **/obj
 .git
 .vscode
+
+**/appsettings.json
+**/appsettings.*.json
+**/launchSettings.json
