@@ -287,8 +287,5 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
-SOCVR.Website.Server/content
-/SOCVR.Website.Server/appsettings.Development.json
-/SOCVR.Website.Server/appsettings.Production.json
 
-docker-compose.yml
+**/appsettings.Development.json
