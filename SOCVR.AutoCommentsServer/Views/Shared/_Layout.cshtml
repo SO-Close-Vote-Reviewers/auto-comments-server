@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject SOCVR.AutoCommentsServer.Services.Abstract.IJavaScriptSnippetFactory SnippetFactory
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -9,6 +11,11 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    @if (SnippetFactory.Exists)
+    {
+        @Html.Raw(SnippetFactory.GetJavaScriptSnippet().FullScript)
+    }
 </head>
 <body class="brown lighten-5">
 

@@ -40,6 +40,21 @@ namespace SOCVR.AutoCommentsServer
 
             services.Configure<GitPullCacheSettings>(Configuration.GetSection(nameof(GitPullCacheSettings)));
             services.Configure<GitSettings>(Configuration.GetSection(nameof(GitSettings)));
+
+            // app insights
+            if (Configuration.GetValue<bool>("AppInsights:Enabled"))
+            {
+                services.AddApplicationInsightsTelemetry(o =>
+                {
+                    o.ApplicationVersion = Configuration["Meta:AppVersion"] ?? "";
+                    o.DeveloperMode = Configuration.GetValue<bool?>("AppInsights:DeveloperMode").GetValueOrDefault(false);
+                    o.EnableAdaptiveSampling = Configuration.GetValue<bool?>("AppInsights:AdaptiveSampling").GetValueOrDefault(false);
+                    o.EnableQuickPulseMetricStream = true;
+                    o.InstrumentationKey = Configuration["AppInsights:InstrumentationKey"];
+                });
+            }
+
+            services.AddTransient<IJavaScriptSnippetFactory, JavaScriptSnippetFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
