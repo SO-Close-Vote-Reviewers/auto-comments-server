@@ -1,7 +1,5 @@
-﻿@model IEnumerable<string>
-@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@page
+@model IndexModel
 
 <style>
     #remote-click-image {
@@ -40,7 +38,7 @@
                 Copy the URL for the site you want comments for.
             </p>
             <div class="collection">
-                @foreach (var site in Model)
+                @foreach (var site in Model.SiteNames)
                 {
                     <a asp-controller="JsonpData" asp-action="GetSiteData" asp-route-siteName="@site" class="collection-item brown-text" target="_blank">@site</a>
                 }
